@@ -30,7 +30,7 @@ class Url(object):
 
     def __hash__(self):
         return hash(self.parts)
-        
+
 
 def CheckMatch(url, match_term):
     return Url(url) == Url(match_term)
@@ -60,7 +60,7 @@ def MakeRequest(start_row, url):
         try:
             #https?:\/\/(.+?)(\/.*)
             for row in response['rows']:
-                if CheckMatch(url,row['keys'][0])):
+                if CheckMatch(url,row['keys'][0]):
                     scDict['page'].append(row['keys'][0] or 0)
                     scDict['clicks'].append(row['clicks'] or 0)
                     scDict['impressions'].append(row['impressions'] or 0)
