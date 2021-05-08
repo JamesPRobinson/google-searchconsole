@@ -76,7 +76,7 @@ def MakeRequest(start_row, url):
     except googleapiclient.errors.HttpError:
         print("Retrying...")
         time.sleep((10))
-        MakeRequest(start_row)
+        MakeRequest(start_row, url)
     return start_row
 
 
@@ -113,7 +113,7 @@ while (not end_date):
     end_date = ValiDateEndDate(start_date, end_date)
 
 
-if (not site_url or not country_urls or not client_secrets_path
+if (not client_secrets_path
         or not start_date or not end_date):
     print("Invalid values.")
 else:
@@ -146,11 +146,11 @@ else:
     urls = pd.read_csv(urls_path)['input'].tolist()
     for url in urls:
         while (numRows >= 0):
-            numRows = MakeRequest(numRows, url)
+            numRows = MakeRequest(numRows, urls)
         if scDict:
             df = pd.DataFrame(data=scDict)
             df.drop_duplicates(keep = False, inplace = True) # Insurance measure...
-            output_name = site_url[-3:-1].upper() + "_" + start_date + "_" + end_date
+            output_name = url[-3:-1].upper() + "_" + start_date + "_" + end_date
             df.to_csv(output_name + ".csv", header=True, index=False)
         else:
             print("Blank query!")
